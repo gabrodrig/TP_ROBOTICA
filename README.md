@@ -1,12 +1,45 @@
 # TP_ROBOTICA
 
+
+
+## Cheatsheet
+
+Acá dejemos los commandos a mano para que sea menos un sufrimiento todas abrir todas las terminales. 
+
+#### Initial Setup
+
+En 2 terminales distintas ya adentro del docker:
+```bash
+colcon build; source install/setup.bash; coppeliaSim.sh
+```
+```bash
+colcon build; source install/setup.bash; rviz2
+```
+
+#### Odometry + Keyboard
+(andando coppelia y reseteado rviz).
+
+```bash
+colcon build; source install/setup.bash;ros2 run modelo_omnidireccional omni_odometry_node 
+```
+```bash
+colcon build; source install/setup.bash;ros2 run keyboard keyboard
+```
+```bash
+colcon build; source install/setup.bash;ros2 run  ros_intro keys_to_twist
+```
+
+
+## Notas
+
 Muchachos, lo que hice fue la parte de cinematica inversa y cinematica directa con la odometria
 Llegue a testear solo la cinematica inversa, osea ver que cuando le mando comandos al robot, se mueve correctamente
 No llegue a ver lo de rviz, que es donde se veria la odometria. Tampoco mire bien la consigna del 1 a ver si falta algo
 
-Pero bueno cuestion, agarre el paquete modelo_diferencial, le cambie todos los nombres necesarios de diferencial/pioneer a omnidiferencial y trabaje sobre omni_odometry.cpp, que era pioneer_odometry.cpp. Ahi pueden comparar ambos codigos para ver bien los cambios. 
+Pero bueno cuestion, agarre el paquete modelo_diferencial, le cambie todos los nombres necesarios de diferencial/pioneer a omnidiferencial y trabaje sobre omni_odometry.cpp, que era pioneer_odometry.cpp. Ahi pueden comparar ambos codigos para ver bien los cambios.
 
-Use el paper que nos dieron con la consigna del tp, y la intro del tp. 
+Use el paper que nos dieron con la consigna del tp, y la intro del tp.
+
 - Cambian las variables globales
 - En vez de usar EncodersTicks, se usa MultiEncoderTicks, asi que intercambie todas las veces q aparecia la primera
 - En vez de haber 2 publishers para 2 ruedas, hay 4 publishers para 4 ruedas
