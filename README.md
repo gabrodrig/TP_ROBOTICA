@@ -15,6 +15,16 @@ colcon build; source install/setup.bash; coppeliaSim.sh
 ```bash
 colcon build; source install/setup.bash; rviz2
 ```
+##### Coppelia setup.
+La odometría da por hecho empieza con posición:
+x: 0
+y: 0
+z: 0.09532
+
+y rotación:
+Alpha: 0
+Beta: +90
+Gamma: -180
 
 #### Odometry + Keyboard
 (andando coppelia y reseteado rviz).
@@ -27,6 +37,14 @@ colcon build; source install/setup.bash;ros2 run keyboard keyboard
 ```
 ```bash
 colcon build; source install/setup.bash;ros2 run  ros_intro keys_to_twist
+```
+
+
+#### Lazo abierto
+(andando coppelia y reseteado rviz).
+
+```bash
+colcon build; source install/setup.bash;ros2 launch lazo_abierto lazo_abierto.launch.py 
 ```
 
 
