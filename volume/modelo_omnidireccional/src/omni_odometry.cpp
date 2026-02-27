@@ -143,7 +143,7 @@ void OmniOdometry::on_encoder_ticks(const robmovil_msgs::msg::MultiEncoderTicks:
 
   geometry_msgs::msg::TransformStamped t;
   t.header.stamp = this->get_clock()->now();
-  t.header.frame_id = "map";
+  t.header.frame_id = "odom";
   t.child_frame_id = "base_link";
   t.transform.translation.x = msg.pose.pose.position.x;
   t.transform.translation.y = msg.pose.pose.position.y;
