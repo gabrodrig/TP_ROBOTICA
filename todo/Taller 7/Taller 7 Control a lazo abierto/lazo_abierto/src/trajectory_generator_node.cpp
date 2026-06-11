@@ -12,7 +12,6 @@
 // Forward declarations
 void build_sin_trajectory(double, double, double, double, robmovil_msgs::msg::Trajectory&, nav_msgs::msg::Path&);
 void build_spline_trajectory(double, std::vector<std::vector<double>>&, robmovil_msgs::msg::Trajectory&, nav_msgs::msg::Path&);
-void build_square_trajectory(double, double, double, robmovil_msgs::msg::Trajectory&, nav_msgs::msg::Path&);
 
 int main(int argc, char** argv)
 {
@@ -77,13 +76,6 @@ int main(int argc, char** argv)
     
     build_spline_trajectory(stepping, spline_waypoints, trajectory_msg, path_msg);
     
-  } else if (trajectory_type == "square")
-  {
-    double stepping = trajectory_generator_node->declare_parameter("stepping", 0.1);
-    double side = trajectory_generator_node->declare_parameter("square_side", 2.0);
-    double speed = trajectory_generator_node->declare_parameter("square_speed", 0.2);
-
-    build_square_trajectory(stepping, side, speed, trajectory_msg, path_msg);
   }
 
   trajectory_publisher->publish( trajectory_msg );
@@ -93,117 +85,6 @@ int main(int argc, char** argv)
   rclcpp::shutdown();
 
   return 0;
-}
-
-void build_square_trajectory(double stepping, double side, double speed, robmovil_msgs::msg::Trajectory& trajectory_msg, nav_msgs::msg::Path& path_msg)
-{
-  double initial_rotation_time = 1.0;
-  double side_time = side / speed;
-  double total_time = initial_rotation_time + 4.0 * side_time;
-  double center_x = side / 2.0;
-  double center_y = side / 2.0;
-
-  // esta es la orientacion que queremos que tenga el robot al iniciar 
-  double initial_a = std::atan2(0.0 - center_y, 0.0 - center_x);
-
-  bool first_point = true;
-  double previous_a = 0.0;
-
-  for (double t = 0.0; t <= total_time; t = t + stepping)
-  {
-    double x = 0.0;
-    double y = 0.0;
-    double vx_global = 0.0;
-    double vy_global = 0.0;
-    double a = 0.0;
-    double va = 0.0;
-
-    if(t <= initial_rotation_time){
-      // rotamos al robot para que quede orientado en direccion opuesta al centro
-      x = 0.0;
-      y = 0.0;
-      vx_global = 0.0;
-      vy_global = 0.0;
-      a = (t / initial_rotation_time) * initial_a;
-      va = initial_a / initial_rotation_time;
-      previous_a = a;
-      first_point = false;
-    }else{
-      // con el robot apuntando en la direccion inicial, empezamos a recorrer  el cuadrado
-      double t_square = t - initial_rotation_time;
-
-      if(t_square <= side_time){
-        // lado 1
-        x = speed * t_square;
-        y = 0.0;
-        vx_global = speed;
-        vy_global = 0.0;
-      }else if(t_square <= 2.0 * side_time){
-        // lado 2
-        x = side;
-        y = speed * (t_square - side_time);
-        vx_global = 0.0;
-        vy_global = speed;
-      }else if(t_square <= 3.0 * side_time){
-        // lado 3
-        x = side - speed * (t_square - 2.0 * side_time);
-        y = side;
-        vx_global = -speed;
-        vy_global = 0.0;
-      }else{
-        // lado 4
-        x = 0.0;
-        y = side - speed * (t_square - 3.0 * side_time);
-        vx_global = 0.0;
-        vy_global = -speed;
-      }
-
-      // orientación opuesta al centro
-      a = std::atan2(y - center_y, x - center_x);
-
-      a = previous_a + std::atan2(std::sin(a - previous_a), std::cos(a - previous_a));
-      va = std::atan2(std::sin(a - previous_a), std::cos(a - previous_a)) / stepping;
-      previous_a = a;
-    }
-
-    // convertimos velocidad global a velocidad en el marco del robot
-    double vx_robot =  std::cos(a) * vx_global + std::sin(a) * vy_global;
-    double vy_robot = -std::sin(a) * vx_global + std::cos(a) * vy_global;
-
-    robmovil_msgs::msg::TrajectoryPoint point_msg;
-
-    point_msg.time_from_start = rclcpp::Duration::from_seconds(t);
-
-    point_msg.transform.translation.x = x;
-    point_msg.transform.translation.y = y;
-    point_msg.transform.translation.z = 0.0;
-
-    tf2::Quaternion q;
-    q.setRPY(0.0, 0.0, a);
-    point_msg.transform.rotation = tf2::toMsg(q);
-
-    point_msg.velocity.linear.x = vx_robot;
-    point_msg.velocity.linear.y = vy_robot;
-    point_msg.velocity.linear.z = 0.0;
-
-    point_msg.velocity.angular.x = 0.0;
-    point_msg.velocity.angular.y = 0.0;
-    point_msg.velocity.angular.z = va;
-
-    trajectory_msg.points.push_back(point_msg);
-
-    geometry_msgs::msg::PoseStamped stamped_pose_msg;
-
-    stamped_pose_msg.header.stamp = path_msg.header.stamp;
-    stamped_pose_msg.header.frame_id = path_msg.header.frame_id;
-
-    stamped_pose_msg.pose.position.x = x;
-    stamped_pose_msg.pose.position.y = y;
-    stamped_pose_msg.pose.position.z = 0.0;
-    stamped_pose_msg.pose.orientation = tf2::toMsg(q);
-
-    path_msg.poses.push_back(stamped_pose_msg);
-  }
 }
 
 void build_sin_trajectory(double stepping, double total_time, double amplitude, double cycles, robmovil_msgs::msg::Trajectory& trajectory_msg, nav_msgs::msg::Path& path_msg)
@@ -242,7 +123,7 @@ void build_sin_trajectory(double stepping, double total_time, double amplitude, 
     double a = atan2( vy, vx );
     double va = (vvy*vx-vvx*vy)/(vx*vx+vy*vy);
 
-    // se crean los waypoints de la trayectoria
+    // se crean los waypoints de la trajectoria
     robmovil_msgs::msg::TrajectoryPoint point_msg;
 
     point_msg.time_from_start = rclcpp::Duration::from_seconds(t);
@@ -311,15 +192,14 @@ void build_spline_trajectory(double stepping, std::vector<std::vector<double>>& 
     // polynomial parameters
 
     /* COMPLETAR LOS PARÁMETROS DE LOS POLINOMIOS */
-    double a0 = xa;
-    double a1 = n1*cos(thetaa);
-    double a2 = 3*(xb-xa)-2*n1*cos(thetaa)-n2*cos(thetab);
-    double a3 = -2*(xb-xa)+n1*cos(thetaa)+n2*cos(thetab);
-
-    double b0 = ya;
-    double b1 = n1*sin(thetaa);
-    double b2 = 3*(yb-ya)-2*n1*sin(thetaa)-n2*sin(thetab);
-    double b3 = -2*(yb-ya)+n1*sin(thetaa)+n2*sin(thetab);
+    double a0 = 0;
+    double a1 = 0;
+    double a2 = 0;
+    double a3 = 0;
+    double b0 = 0;
+    double b1 = 0;
+    double b2 = 0;
+    double b3 = 0;
     
     //std::cout << "a0 " << a0 << " a1 " << a1 << " a2 " << a2 << " a3 " << a3 << std::endl;
     //std::cout << "b0 " << b0 << " b1 " << b1 << " b2 " << b2 << " b3 " << b3 << std::endl;
@@ -349,10 +229,10 @@ void build_spline_trajectory(double stepping, std::vector<std::vector<double>>& 
       double vvy = 2. * b2 / (delta_time * delta_time) + 6. * b3 * t_offset / (delta_time * delta_time * delta_time);
       
       // calculo del angulo en cada momento y la derivada del angulo
-      double a = 0;
-      double va = 0;
+      double a = atan2( vy, vx );
+      double va = (vvy*vx-vvx*vy)/(vx*vx+vy*vy);
       
-      // se crean los waypoints de la trayectoria
+      // se crean los waypoints de la trajectoria
       robmovil_msgs::msg::TrajectoryPoint point_msg;
 
       point_msg.time_from_start = rclcpp::Duration::from_seconds(t);

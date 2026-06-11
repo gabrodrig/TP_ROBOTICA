@@ -1,0 +1,7 @@
+- Cambie el nombre del paquete ros_intro a omni_keyboard_teleop para que sea mas declarativo
+- Elimine archivos innecesarios de omni_keyboard_teleop y ros2-keyboard
+- Cambie /cmd_vel por /robot/cmd_vel en ros_intro y modelo_omnidireccional y en TrajectoryFollower.cpp
+- Agregue normalizacion de theta_ (omni_odometry.cpp linea 113)
+- Cambie package='modelo_omnidireccional', executable='omni_odometry_node', name='omni_odometry', de lazo abierto launch (antes decia pioneer y diferencial)
+- Cambie va por w en FeedForwardController.cpp
+- Agregue el tipo de trayectoria square para poder generar el cuadrado que pide el tp en trajectory_generator_node (build_square_trajectory)

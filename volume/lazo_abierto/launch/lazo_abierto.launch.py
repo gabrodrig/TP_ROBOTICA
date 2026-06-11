@@ -5,9 +5,9 @@ def generate_launch_description():
     return LaunchDescription([
         # Use simulation time for all nodes
         Node(
-            package='modelo_diferencial',
-            executable='pioneer_odometry_node',
-            name='pioneer_odometry',
+            package='modelo_omnidireccional',
+            executable='omni_odometry_node',
+            name='omni_odometry',
             output='screen',
             parameters=[{'use_sim_time': True}]
         ),
@@ -28,16 +28,18 @@ def generate_launch_description():
             parameters=[
                 {'use_sim_time': True},
                 {'stepping': 0.1},
-                {'trajectory_type': 'sin'},
+                {'trajectory_type': 'square'},
                 {'total_time': 50.0},
                 {'amplitude': 1.0},
                 {'cycles': 1.0},
+                {'square_side': 2.0},
+                {'square_speed': 0.2},
                 {'spline_waypoints': [
-                    0., 0., 0., 0.,
-                    100., 5., 0., 1.57,
-                    200., 5., 5., 3.14,
-                    300., 0., 5., 4.71,
-                    400., 0., 0., 0.
+                    0.,  0., 0., -2.35619,
+                    10., 2., 0., -0.78539,
+                    20., 2., 2.,  0.78539,
+                    30., 0., 2.,  2.35619,
+                    40., 0., 0., -2.35619,
                 ]}
             ]
         )

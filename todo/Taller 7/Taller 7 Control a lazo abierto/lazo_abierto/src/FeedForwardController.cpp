@@ -5,12 +5,13 @@ FeedForwardController::FeedForwardController() : TrajectoryFollower()
 
 double lineal_interp(const rclcpp::Time& t0, const rclcpp::Time& t1, double v0, double v1, const rclcpp::Time& t)
 {
-  const double alpha = (t  - t0).seconds() / (t1 - t0).seconds();       
-
-  return v0 + alpha * (v1 - v0);
+  /** COMPLETAR: esta funcion debe interpolar entre las velocidades requeridas.
+   * entre v0 y v1 dependiendo el tiempo trancurrido entre ambos
+   * considerar que t siempre se encuentra en t0 y t1. */
+  return v0;
 }
 
-bool FeedForwardController::control(const rclcpp::Time& t, double& vx, double& vy, double& w)
+bool FeedForwardController::control(const rclcpp::Time& t, double& v, double& w)
 {
   size_t next_point_idx;
 
@@ -49,9 +50,14 @@ bool FeedForwardController::control(const rclcpp::Time& t, double& vx, double& v
   RCLCPP_INFO(this->get_logger(), "trajectory size: %zu", getTrajectory().points.size());
 
   /* realizar una interpolacion entre las velocidades requeridas */
-  vx = lineal_interp(t0, t1, vx0, vx1, t); // calculo de la velocidad lineal en X
-  vy = lineal_interp(t0, t1, vy0, vy1, t); // calculo de la velocidad lineal en Y
-  w = lineal_interp(t0, t1, va0, va1, t); // calculo de la velocidad angular
+  double vx = lineal_interp(t0, t1, vx0, vx1, t); // calculo de la velocidad lineal en X
+  double vy = lineal_interp(t0, t1, vy0, vy1, t); // calculo de la velocidad lineal en Y
+  double va = lineal_interp(t0, t1, va0, va1, t); // calculo de la velocidad angular
+
+  /** COMPLETAR: Evaluar las velocidades lineales y angulares resultantes para publicar
+   * como comandos de velocidad. */
+  v = 0;
+  w = 0;
     
   return true;
 }

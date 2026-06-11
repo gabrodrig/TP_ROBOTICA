@@ -15,9 +15,10 @@ using namespace robmovil;
 
 OmniOdometry::OmniOdometry() : Node("nodeOdometry"), x_(0), y_(0), theta_(0), ticks_initialized_(false)
 {
-  // Nos suscribimos a los comandos de velocidad en el tópico "/robot/cmd_vel" de tipo geometry_msgs::Twist
-  twist_sub_ = this->create_subscription<geometry_msgs::msg::Twist>("/cmd_vel", rclcpp::QoS(10), std::bind(&OmniOdometry::on_velocity_cmd, this, std::placeholders::_1));
+  // nos suscribimos a los comandos de velocidad en el tópico "/robot/cmd_vel" de tipo geometry_msgs::Twist
+  twist_sub_ = this->create_subscription<geometry_msgs::msg::Twist>("/robot/cmd_vel", rclcpp::QoS(10), std::bind(&OmniOdometry::on_velocity_cmd, this, std::placeholders::_1));
 
+  // publicamos las velocidades correspondientes en cada rueda
   vel_pub_fl_wheel_ = this->create_publisher<std_msgs::msg::Float64>("/robot/front_left_wheel/cmd_vel", rclcpp::QoS(10));
   vel_pub_fr_wheel_ = this->create_publisher<std_msgs::msg::Float64>("/robot/front_right_wheel/cmd_vel", rclcpp::QoS(10));
   vel_pub_rl_wheel_ = this->create_publisher<std_msgs::msg::Float64>("/robot/rear_left_wheel/cmd_vel", rclcpp::QoS(10));
@@ -32,7 +33,7 @@ OmniOdometry::OmniOdometry() : Node("nodeOdometry"), x_(0), y_(0), theta_(0), ti
 
 void OmniOdometry::on_velocity_cmd(const geometry_msgs::msg::Twist::SharedPtr twist)
 {
-  /** Usamos eq. 19 para la cinematica inversa*/
+  /** Usamos eq. 20 para la cinematica inversa*/
   const double vx = twist->linear.x;
   const double vy = twist->linear.y;
   const double wz = twist->angular.z;
@@ -42,6 +43,7 @@ void OmniOdometry::on_velocity_cmd(const geometry_msgs::msg::Twist::SharedPtr tw
   double rl_wheel = (vx + vy - (LX + LY)*wz)/WHEEL_RADIUS;
   double rr_wheel = (vx - vy + (LX + LY)*wz)/WHEEL_RADIUS;
 
+  // publicamos los mensajes para cada rueda
   {
     std_msgs::msg::Float64 msg;
     msg.data = fl_wheel;
@@ -85,7 +87,7 @@ void OmniOdometry::on_encoder_ticks(const robmovil_msgs::msg::MultiEncoderTicks:
   rclcpp::Time current_time(encoder->header.stamp);
   double delta_t = (current_time - last_ticks_time).seconds();
 
-  /* Obtenemos las velocidades de cada rueda en rad/s */
+  // Obtenemos las velocidades de cada rueda en rad/s 
   double radsPorTick = (M_PI*2)/ENCODER_TICKS;
 
   double w1 = ((encoder->ticks[0] - last_ticks_[0])*radsPorTick)/delta_t; // fl
@@ -93,12 +95,12 @@ void OmniOdometry::on_encoder_ticks(const robmovil_msgs::msg::MultiEncoderTicks:
   double w3 = ((encoder->ticks[2] - last_ticks_[2])*radsPorTick)/delta_t; // rl
   double w4 = ((encoder->ticks[3] - last_ticks_[3])*radsPorTick)/delta_t; // rr
 
-  /* Usamos eq. 21 para calcular cinematica directa */
+  // Usamos eq. 22, 23 y 24 para calcular cinematica directa 
   double vx = (w1 + w2 + w3 + w4)*(WHEEL_RADIUS/4);
   double vy = (-w1 + w2 + w3 + -w4)*(WHEEL_RADIUS/4);
   double wz = (-w1 + w2 + -w3 + w4)*(WHEEL_RADIUS/(4*(LX + LY)));
 
-  /* Usamos mismas ecuaciones que en el diferencial pero ahora vy != 0 */
+  // Usamos mismas ecuaciones que en el diferencial pero ahora vy != 0 
   double delta_x = (vx * cos(theta_) - vy * sin(theta_))*delta_t;
   double delta_y = (vx * sin(theta_) + vy * cos(theta_))*delta_t;
   double delta_theta = wz*delta_t;
@@ -106,12 +108,15 @@ void OmniOdometry::on_encoder_ticks(const robmovil_msgs::msg::MultiEncoderTicks:
   x_ += delta_x;
   y_ += delta_y;
   theta_ += delta_theta;
+
+  // normalizamos theta_
+  theta_ = std::atan2(std::sin(theta_), std::cos(theta_));
   
-  // Construir el mensaje odometry utilizando el esqueleto siguiente:
+  // Construimos el mensaje odometry
   nav_msgs::msg::Odometry msg;
 
   msg.header.stamp = encoder->header.stamp;
-  msg.header.frame_id = "map";
+  msg.header.frame_id = "odom";
   msg.child_frame_id = "base_link";
 
   msg.pose.pose.position.x = x_;
