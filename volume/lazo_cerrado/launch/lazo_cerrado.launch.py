@@ -34,11 +34,13 @@ def generate_launch_description():
             output="screen",
             parameters=[
                 {'use_sim_time': True},
-                {'trajectory_type': 'spline'}, #sin or spline
+                {'trajectory_type': 'square'}, 
                 {"stepping": float(0.1)},
                 {"total_time": float(20.0)},
                 {"amplitude": float(1.0)},
                 {"cycles": float(1.0)},
+                {'square_side': 2.0},
+                {'square_speed': 0.2},
                 {'spline_waypoints': [
                     0., 0., 0., 0.,
                     10., 5., 0., 1.57,

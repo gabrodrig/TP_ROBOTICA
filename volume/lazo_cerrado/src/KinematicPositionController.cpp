@@ -61,25 +61,20 @@ bool KinematicPositionController::control(const rclcpp::Time& t, double& vx, dou
     return false;
   publishCurrentGoal(t, goal_x, goal_y, goal_a); // publicación de la pose objetivo para visualizar en RViz
 
-  /** EJERCICIO 1: COMPLETAR: Aqui deberan realizar las cuentas necesarias para determinar:
-   *             - la velocidad lineal: asignando la variable v
-   *             - la velocidad angular: asignando la variable w 
-   *  
-   *  RECORDAR: cambiar el marco de referencia en que se encuentran dx, dy y theta */
-
   double dx_i = goal_x - current_x; 
   double dy_i = goal_y - current_y; 
   
-  // double dx = cos(current_a)*dx_i + sin(current_a)*dy_i; 
-  // double dy = -sin(current_a)*dx_i + cos(current_a)*dy_i; 
+  double dx = cos(current_a)*dx_i + sin(current_a)*dy_i; 
+  double dy = -sin(current_a)*dx_i + cos(current_a)*dy_i; 
+
   double dtheta = angles::normalize_angle(goal_a - current_a);
 
-  vx = K_X * dx_i;
-  vy = K_Y * dy_i;
+  vx = K_X * dx;
+  vy = K_Y * dy;
   w = K_THETA * dtheta;
 
   RCLCPP_INFO(this->get_logger(), "dx: %.2f, dy: %.2f, dtheta: %.2f, current_a: %.2f, vx: %.2f, vy: %.2f, w: %.2f",
-            dx_i, dy_i, dtheta, current_a, vx, vy, w);
+            dx, dy, dtheta, current_a, vx, vy, w);
 
   RCLCPP_INFO(this->get_logger(), "goal_x: %.2f, goal_y: %.2f, goal_a: %.2f, current_x: %.2f, current_y: %.2f, current_a: %.2f",
             goal_x, goal_y, goal_a, current_x, current_y, current_a);
