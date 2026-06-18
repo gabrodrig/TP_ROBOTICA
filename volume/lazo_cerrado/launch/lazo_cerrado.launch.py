@@ -24,6 +24,10 @@ def generate_launch_description():
                 {"fixed_goal_x": float(2.0)},
                 {"fixed_goal_y": float(2.0)},
                 {"fixed_goal_a": float(-0.785)}, # -1/2 * PI
+                {"k_x": 0.6},
+                {"k_y": 0.6},
+                {"k_theta": 0.8},
+                {"lookahead": 0.1},
             ],
         ),
 

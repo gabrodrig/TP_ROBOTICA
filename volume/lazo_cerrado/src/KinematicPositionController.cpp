@@ -17,6 +17,11 @@ KinematicPositionController::KinematicPositionController() :
     fixed_goal_y_ = this->declare_parameter("fixed_goal_y", 0.0);
     fixed_goal_a_ = this->declare_parameter("fixed_goal_a", -M_PI_2);
     
+    k_x_ = this->declare_parameter("k_x", 1.0);
+    k_y_ = this->declare_parameter("k_y", 1.0);
+    k_theta_ = this->declare_parameter("k_theta", 1.0);
+    lookahead_ = this->declare_parameter("lookahead", 0.6);
+
     if(goal_selection == "TIME_BASED")
       goal_selection_ = TIME_BASED;
     else if(goal_selection == "PURSUIT_BASED")
@@ -45,9 +50,6 @@ void KinematicPositionController::getCurrentPoseFromOdometry(const nav_msgs::msg
   a = yaw;
 }
 
-#define K_THETA 1
-#define K_X 1
-#define K_Y 1
 
 bool KinematicPositionController::control(const rclcpp::Time& t, double& vx, double& vy, double& w)
 {
@@ -69,9 +71,9 @@ bool KinematicPositionController::control(const rclcpp::Time& t, double& vx, dou
 
   double dtheta = angles::normalize_angle(goal_a - current_a);
 
-  vx = K_X * dx;
-  vy = K_Y * dy;
-  w = K_THETA * dtheta;
+  vx = k_x_ * dx;
+  vy = k_y_ * dy;
+  w = k_theta_ * dtheta;
 
   RCLCPP_INFO(this->get_logger(), "dx: %.2f, dy: %.2f, dtheta: %.2f, current_a: %.2f, vx: %.2f, vy: %.2f, w: %.2f",
             dx, dy, dtheta, current_a, vx, vy, w);
@@ -100,7 +102,7 @@ bool KinematicPositionController::getPursuitBasedGoal(const rclcpp::Time& t, dou
    * y luego buscar el primer waypoint que se encuentre a una distancia predefinida de lookahead en x,y */
   
   /* NOTA: De esta manera les es posible recorrer la trayectoria requerida */  
-  const double lookahead = 0.6; 
+  const double lookahead = lookahead_;
   double dist_mas_cercano = std::numeric_limits<double>::infinity();
   unsigned int mas_cercano = 0;
 

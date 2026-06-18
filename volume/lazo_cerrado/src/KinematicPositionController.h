@@ -35,6 +35,11 @@ class KinematicPositionController : public TrajectoryFollower
     double x = 0.0;
     double y = 0.0;
     double a = 0.0;
+
+    double k_x_;
+    double k_y_;
+    double k_theta_;
+    double lookahead_;
     
     // funciones auxiliares
     
