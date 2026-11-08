@@ -1,0 +1,716 @@
+<?xml version="1.0"?>
+<robot name="Pioneer_p3dx">
+    <link name="base_link_gt">
+        <inertial>
+            <origin xyz="-0.000332 0.000003 0.138681" rpy="3.141534 3.143574 -3.141570" />
+            <inertia izz="2.0906035900116" ixy="1.3291859387186e-44" ixx="1.9199999570847" iyz="2.9803723463435e-16" iyy="1.9390720129013" ixz="6.7551167532783e-30" />
+            <mass value="16.0" />
+        </inertial>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="-0.138663 0.095966 0.121579" rpy="-3.139989 3.142716 2.195889" />
+            <geometry>
+                <box size="0.050035 0.055540 0.120014" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="0.165399 -0.064234 0.207119" rpy="1.571845 3.143639 2.617726" />
+            <geometry>
+                <box size="0.055000 0.055000 0.050100" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="0.138348 -0.100035 0.207018" rpy="1.572480 3.143152 2.268660" />
+            <geometry>
+                <box size="0.055000 0.055000 0.050100" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="-0.141696 -0.098412 0.206583" rpy="1.572634 3.140145 0.872352" />
+            <geometry>
+                <box size="0.055000 0.055000 0.050100" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="-0.170369 -0.064241 0.206524" rpy="1.572072 3.139603 0.523908" />
+            <geometry>
+                <box size="0.055000 0.055000 0.050100" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="-0.185653 -0.022302 0.206492" rpy="1.571338 3.139313 0.175327" />
+            <geometry>
+                <box size="0.055000 0.055000 0.050100" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="-0.185654 0.022305 0.206489" rpy="1.571063 3.143901 2.966306" />
+            <geometry>
+                <box size="0.055000 0.055000 0.050100" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="-0.170372 0.064245 0.206517" rpy="1.571845 3.143634 2.617729" />
+            <geometry>
+                <box size="0.055000 0.055000 0.050100" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="-0.141686 0.098454 0.206572" rpy="1.572510 3.143139 2.269978" />
+            <geometry>
+                <box size="0.055000 0.055000 0.050100" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="0.139998 0.100807 0.207059" rpy="3.139678 3.142762 -2.123687" />
+            <geometry>
+                <box size="0.055000 0.055000 0.050100" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="0.164488 0.070760 0.207102" rpy="1.569952 3.143659 -2.692058" />
+            <geometry>
+                <box size="0.055000 0.055000 0.050100" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="0.180669 0.022364 0.207146" rpy="1.570972 3.139789 0.173541" />
+            <geometry>
+                <box size="0.055000 0.055000 0.050100" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="0.180657 -0.022354 0.207152" rpy="-1.570674 3.143415 2.968534" />
+            <geometry>
+                <box size="0.055000 0.055000 0.050100" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="-0.002477 0.000032 0.206814" rpy="-1.545594 4.710062 -0.025180" />
+            <geometry>
+                <box size="0.050128 0.271710 0.274352" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="-0.255436 -0.000009 0.054974" rpy="-1.570798 3.139656 0.000021" />
+            <geometry>
+                <box size="0.008461 0.030006 0.100002" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="-0.147771 -0.171222 0.055194" rpy="-1.572490 3.142405 -2.034418" />
+            <geometry>
+                <box size="0.008461 0.030008 0.111805" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="-0.226038 -0.097832 0.055037" rpy="1.571918 3.139956 0.540441" />
+            <geometry>
+                <box size="0.008459 0.030008 0.116621" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="-0.226040 0.097814 0.055026" rpy="1.571563 3.143287 2.601192" />
+            <geometry>
+                <box size="0.008465 0.030021 0.116624" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="-0.147778 0.171208 0.055174" rpy="1.568831 3.140674 -1.107120" />
+            <geometry>
+                <box size="0.008464 0.030028 0.111812" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="0.176489 0.169965 0.055805" rpy="1.572331 3.140446 0.927318" />
+            <geometry>
+                <box size="0.009465 0.030004 0.112502" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="0.237494 0.090905 0.055927" rpy="1.570116 3.143394 -2.788583" />
+            <geometry>
+                <box size="0.009243 0.030005 0.101244" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="0.254711 0.000003 0.055966" rpy="1.570800 3.143539 -3.141569" />
+            <geometry>
+                <box size="0.009243 0.030006 0.090002" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="0.237498 -0.090900 0.055938" rpy="1.570372 3.139750 -0.352967" />
+            <geometry>
+                <box size="0.009243 0.030020 0.101248" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="0.176497 -0.169963 0.055825" rpy="-1.569284 3.142808 2.214319" />
+            <geometry>
+                <box size="0.009465 0.030001 0.112500" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="-0.138669 -0.095984 0.121597" rpy="-3.139928 3.140281 0.945741" />
+            <geometry>
+                <box size="0.050034 0.055540 0.120014" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="0.139030 -0.087321 0.122251" rpy="3.140046 3.140212 -0.785319" />
+            <geometry>
+                <box size="0.050005 0.077807 0.120005" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="0.139033 0.087319 0.122241" rpy="3.139843 3.142848 -2.355743" />
+            <geometry>
+                <box size="0.050042 0.077823 0.120005" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="0.156708 0.000014 0.122291" rpy="-1.570858 3.143485 3.141271" />
+            <geometry>
+                <box size="0.055040 0.120001 0.155001" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="-0.153278 -0.000002 0.121558" rpy="1.570829 3.139268 0.000022" />
+            <geometry>
+                <box size="0.045038 0.120005 0.200003" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="-0.000788 0.000001 0.121912" rpy="-1.545605 4.710062 -0.025168" />
+            <geometry>
+                <box size="0.120000 0.260059 0.265000" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="0.038458 0.000009 0.234490" rpy="-1.541158 4.710407 -0.029615" />
+            <geometry>
+                <box size="0.005006 0.155000 0.380000" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="-0.166222 0.094404 0.234086" rpy="-2.117454 4.710407 -0.031024" />
+            <geometry>
+                <box size="0.005000 0.068200 0.121300" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="-0.194062 0.000003 0.234036" rpy="-1.541158 4.710407 -0.029615" />
+            <geometry>
+                <box size="0.005000 0.068200 0.121300" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="-0.166218 -0.094386 0.234097" rpy="-0.962862 4.710405 -0.030208" />
+            <geometry>
+                <box size="0.005000 0.068200 0.121300" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="-0.044066 0.164006 0.234324" rpy="0.815015 4.710407 -0.029594" />
+            <geometry>
+                <box size="0.005000 0.030000 0.045000" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="-0.044058 -0.163993 0.234343" rpy="2.385857 4.710407 -0.029640" />
+            <geometry>
+                <box size="0.005000 0.030000 0.045000" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="0.119940 -0.107990 0.234665" rpy="-2.314339 4.710407 -0.029615" />
+            <geometry>
+                <box size="0.005000 0.110000 0.121300" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="0.157939 -0.060989 0.234737" rpy="-1.932112 4.710407 -0.029615" />
+            <geometry>
+                <box size="0.005000 0.110000 0.045000" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="0.166938 0.000012 0.234751" rpy="-1.541158 4.710407 -0.029615" />
+            <geometry>
+                <box size="0.005000 0.110000 0.121300" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="0.157936 0.061011 0.234730" rpy="-1.150205 4.710407 -0.029615" />
+            <geometry>
+                <box size="0.005000 0.110000 0.045000" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="0.119935 0.108010 0.234652" rpy="-0.767883 4.710407 -0.029710" />
+            <geometry>
+                <box size="0.005000 0.110000 0.121300" />
+            </geometry>
+        </collision>
+        <collision name="Pioneer_p3dx">
+            <origin xyz="-0.091591 0.000005 0.234237" rpy="-1.541158 4.710407 -0.029615" />
+            <geometry>
+                <box size="0.005001 0.140000 0.330000" />
+            </geometry>
+        </collision>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_1.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="0.937647 0.297647 0.310447 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_2.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="0.394118 0.394118 0.394118 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_3.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="0.394118 0.394118 0.394118 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_4.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="1.000000 0.836592 0.556463 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_5.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="0.147059 0.147059 0.147059 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_6.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="1.000000 0.836592 0.556463 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_7.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="0.147059 0.147059 0.147059 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_8.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="1.000000 0.836592 0.556463 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_9.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="0.147059 0.147059 0.147059 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_10.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="1.000000 0.836592 0.556463 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_11.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="0.147059 0.147059 0.147059 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_12.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="1.000000 0.836592 0.556463 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_13.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="0.147059 0.147059 0.147059 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_14.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="1.000000 0.836592 0.556463 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_15.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="0.147059 0.147059 0.147059 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_16.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="1.000000 0.836592 0.556463 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_17.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="0.147059 0.147059 0.147059 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_18.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="1.000000 0.836592 0.556463 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_19.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="0.147059 0.147059 0.147059 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_20.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="1.000000 0.836592 0.556463 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_21.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="0.147059 0.147059 0.147059 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_22.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="1.000000 0.836592 0.556463 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_23.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="0.147059 0.147059 0.147059 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_24.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="1.000000 0.836592 0.556463 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_25.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="0.147059 0.147059 0.147059 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_26.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="1.000000 0.836592 0.556463 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_27.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="0.147059 0.147059 0.147059 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_28.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="1.000000 0.836592 0.556463 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_29.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="0.147059 0.147059 0.147059 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_30.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="1.000000 0.836592 0.556463 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_31.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="0.147059 0.147059 0.147059 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_32.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="1.000000 0.836592 0.556463 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_33.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="0.147059 0.147059 0.147059 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_34.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="1.000000 0.836592 0.556463 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_visible">
+            <origin xyz="-0.000361 0.000002 0.138690" rpy="3.141534 3.143574 -3.141570" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_visible_vis_35.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_visible_material">
+                <color rgba="0.147059 0.147059 0.147059 1.0" />
+            </material>
+        </visual>
+        <visual name="GyroSensor">
+            <origin xyz="-0.000530 0.000009 0.238680" rpy="3.140274 3.143072 -2.443398" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_GyroSensor_vis_1.dae" />
+            </geometry>
+            <material name="GyroSensor_material">
+                <color rgba="0.676471 0.323529 0.323529 1.0" />
+            </material>
+        </visual>
+    </link>
+    <joint type="continuous" name="Pioneer_p3dx_rightMotor">
+        <axis xyz="0 0 1" />
+        <parent link="base_link_gt" />
+        <child link="Pioneer_p3dx_rightWheel" />
+        <origin xyz="0.044268 -0.165499 0.097504" rpy="1.570738 3.143919 -3.141570" />
+    </joint>
+    <link name="Pioneer_p3dx_rightWheel">
+        <inertial>
+            <origin xyz="0.000000 -0.000000 -0.000000" rpy="3.141592 3.141593 -3.141593" />
+            <inertia izz="0.059999998658895" ixy="0.0" ixx="0.029999999329448" iyz="0.0" iyy="0.029999999329448" ixz="0.0" />
+            <mass value="1.5" />
+        </inertial>
+        <collision name="Pioneer_p3dx_rightWheel">
+            <origin xyz="0.000000 -0.000000 -0.000000" rpy="3.141592 3.141593 -3.141593" />
+            <geometry>
+                <cylinder length="0.050000000745058" radius="0.097499996423721" />
+            </geometry>
+        </collision>
+        <visual name="Pioneer_p3dx_rightWheel_visible">
+            <origin xyz="0.000000 -0.000000 -0.000000" rpy="-1.570797 3.141592 -3.141247" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_rightWheel_visible_vis_1.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_rightWheel_visible_material">
+                <color rgba="0.279651 0.279173 0.279173 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_rightWheel_visible">
+            <origin xyz="0.000000 -0.000000 -0.000000" rpy="-1.570797 3.141592 -3.141247" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_rightWheel_visible_vis_2.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_rightWheel_visible_material">
+                <color rgba="1.000000 0.836592 0.556463 1.0" />
+            </material>
+        </visual>
+    </link>
+    <joint type="continuous" name="Pioneer_p3dx_leftMotor">
+        <axis xyz="0 0 1" />
+        <parent link="base_link_gt" />
+        <child link="Pioneer_p3dx_leftWheel" />
+        <origin xyz="0.044256 0.165501 0.097507" rpy="1.570738 3.143919 -3.141570" />
+    </joint>
+    <link name="Pioneer_p3dx_leftWheel">
+        <inertial>
+            <origin xyz="-0.000000 0.000000 0.000000" rpy="3.141592 3.141593 -3.141593" />
+            <inertia izz="0.059999998658895" ixy="0.0" ixx="0.029999999329448" iyz="0.0" iyy="0.029999999329448" ixz="0.0" />
+            <mass value="1.5" />
+        </inertial>
+        <collision name="Pioneer_p3dx_leftWheel">
+            <origin xyz="-0.000000 0.000000 0.000000" rpy="3.141592 3.141593 -3.141593" />
+            <geometry>
+                <cylinder length="0.050000000745058" radius="0.097499996423721" />
+            </geometry>
+        </collision>
+        <visual name="Pioneer_p3dx_leftWheel_visible">
+            <origin xyz="0.000000 -0.000000 0.000000" rpy="-1.570797 3.141593 -3.141247" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_leftWheel_visible_vis_1.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_leftWheel_visible_material">
+                <color rgba="0.279651 0.279173 0.279173 1.0" />
+            </material>
+        </visual>
+        <visual name="Pioneer_p3dx_leftWheel_visible">
+            <origin xyz="0.000000 -0.000000 0.000000" rpy="-1.570797 3.141593 -3.141247" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_leftWheel_visible_vis_2.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_leftWheel_visible_material">
+                <color rgba="1.000000 0.836592 0.556463 1.0" />
+            </material>
+        </visual>
+    </link>
+    <joint type="continuous" name="Pioneer_p3dx_caster_freeJoint1">
+        <axis xyz="0 0 1" />
+        <parent link="base_link_gt" />
+        <child link="Pioneer_p3dx_caster_link" />
+        <origin xyz="-0.149205 -0.000006 0.060544" rpy="3.141534 3.143919 -3.141570" />
+    </joint>
+    <link name="Pioneer_p3dx_caster_link">
+        <inertial>
+            <origin xyz="0.000000 -0.000000 -0.000000" rpy="3.141593 3.141593 2.847039" />
+            <inertia izz="0.019983999431133" ixy="0.0" ixx="0.016000000759959" iyz="0.0" iyy="0.016000000759959" ixz="0.0" />
+            <mass value="1.0" />
+        </inertial>
+        <collision name="Pioneer_p3dx_caster_link">
+            <origin xyz="0.000000 -0.000000 -0.000000" rpy="3.141593 3.141593 2.847039" />
+            <geometry>
+                <cylinder length="0.0029599245171994" radius="0.01767392642796" />
+            </geometry>
+        </collision>
+        <visual name="Pioneer_p3dx_caster_link_visible">
+            <origin xyz="0.007770 0.000000 -0.020349" rpy="-3.141593 3.141593 3.141593" />
+            <geometry>
+                <mesh filename="file:///root/ros2_ws/src/robotica/imu_laser/urdf imu/urdf_Pioneer_p3dx_caster_link_visible_vis_1.dae" />
+            </geometry>
+            <material name="Pioneer_p3dx_caster_link_visible_material">
+                <color rgba="1.000000 1.000000 1.000000 1.0" />
+            </material>
+        </visual>
+    </link>
+    <joint type="continuous" name="Pioneer_p3dx_caster_freeJoint2">
+        <axis xyz="0 0 1" />
+        <parent link="Pioneer_p3dx_caster_link" />
+        <child link="Pioneer_p3dx_caster_wheel" />
+        <origin xyz="0.022199 0.000000 -0.031079" rpy="-1.570796 3.141593 3.141593" />
+    </joint>
+    <link name="Pioneer_p3dx_caster_wheel">
+        <inertial>
+            <origin xyz="0.000000 -0.000000 0.000000" rpy="-3.141593 3.141593 -3.141593" />
+            <inertia izz="0.0070088161155581" ixy="0.0" ixx="0.0010191985638812" iyz="0.0" iyy="0.0010191985638812" ixz="0.0" />
+            <mass value="0.25" />
+        </inertial>
+        <collision name="Pioneer_p3dx_caster_wheel">
+            <origin xyz="0.000000 -0.000000 0.000000" rpy="-3.141593 3.141593 -3.141593" />
+            <geometry>
+                <cylinder length="0.0051798284985125" radius="0.029599018394947" />
+            </geometry>
+        </collision>
+        <visual name="Pioneer_p3dx_caster_wheel_visible">
+            <origin xyz="0.000000 -0.000000 0.000000" rpy="3.141593 3.141593 3.141593" />
+            <geometry>
+                <cylinder length="0.02071931399405" radius="0.029599018394947" />
+            </geometry>
+            <material name="Pioneer_p3dx_caster_wheel_visible_material">
+                <color rgba="0.305882 0.305882 0.305882 1.0" />
+            </material>
+        </visual>
+    </link>
+</robot>
