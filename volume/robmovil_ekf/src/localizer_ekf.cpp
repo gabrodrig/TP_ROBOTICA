@@ -4,7 +4,7 @@
 
 #define NEAREST_NEIGHBOR_RADIUS 1.0
 
-robmovil_ekf::LocalizerEKF::LocalizerEKF(void) : EKFilter(3, 2, 3, 2, 2)
+robmovil_ekf::LocalizerEKF::LocalizerEKF(void) : EKFilter(3, 3, 3, 2, 2)
 {
   delta_t = 0;
 
@@ -35,13 +35,9 @@ robmovil_ekf::LocalizerEKF::LocalizerEKF(void) : EKFilter(3, 2, 3, 2, 2)
 
 void robmovil_ekf::LocalizerEKF::set_map_landmarks(const std::vector<tf2::Vector3>& landmarks)
 {
-  for (int i = 0; i < observations.size(); i++)
-  {
-    map_landmarks = landmarks;
+  map_landmarks = landmarks;
 
-    RCLCPP_INFO(rclcpp::get_logger("robmovil_ekf"), "Mapa recibido con %zu postes", map_landmarks.size()
-    );
-  }
+  RCLCPP_INFO(rclcpp::get_logger("robmovil_ekf"), "Mapa recibido con %zu postes", map_landmarks.size());
 }
 
 void robmovil_ekf::LocalizerEKF::set_initial_pose(double initial_x, double initial_y, double initial_theta)
@@ -110,10 +106,8 @@ void robmovil_ekf::LocalizerEKF::makeBaseA(void)
  *  La matriz se actualiza en cada ciclo de actualizacion de tiempo (prediccion) */
 void robmovil_ekf::LocalizerEKF::makeA(void)
 {
-  /* COMPLETAR: Utilizando variables globales x, u y delta_t */
-  
-  A(1,3) = -(u(1))*delta_t*(sin(x(3))); //−υ∆t sin(θ)
-  A(2,3) = (u(1))*delta_t*(cos(x(3))); //υ∆t cos(θ)
+  A(1,3) = (-u(1) * sin(theta) - u(2) * cos(theta)) * delta_t;
+  A(2,3) = (u(1) * cos(theta) - u(2) * sin(theta)) * delta_t;
 
   RCLCPP_INFO(rclcpp::get_logger("robmovil_ekf"), "A: %d", A);
 }
@@ -227,17 +221,14 @@ void robmovil_ekf::LocalizerEKF::makeBaseR()
  *  para definir (predecir) la variable x */
 void robmovil_ekf::LocalizerEKF::makeProcess(void)
 {
-  /* COMPLETAR: Utilizar las variables globales x_t-1, u y delta_t 
-   * para predecir el estado siguiente (prior state estimate).
-   * 
-   * Guardar el resultado en la variable global x */
-   LocalizerEKF::Vector x_old(x); // X_t-1
+  LocalizerEKF::Vector x_old(x); // X_t-1
+  double theta = x_old(3);
    
-  x(1) = x_old(1) + u(1)*delta_t * cos(x_old(3)); // xt−1 + vt ∆t cos (θt )
-  x(2) = x_old(2) + u(1)*delta_t * sin(x_old(3)); // yt−1 + vt ∆t sin (θt )
-  x(3) = angles::normalize_angle(x_old(3) + u(2)*delta_t); // θt−1 + ωt ∆t
+  x(1) = x_old(1) + (u(1) * cos(theta) - u(2) * sin(theta)) * delta_t;
+  x(2) = x_old(2) + (u(1) * sin(theta) + u(2) * cos(theta)) * delta_t;
+  x(3) = angles::normalize_angle(theta + u(3) * delta_t);
 
-  RCLCPP_INFO(rclcpp::get_logger("robmovil_ekf"), "Process model: X_t-1: %d, X_t: %d, delta_t: %d", x_old, x, delta_t);
+  RCLCPP_DEBUG(rclcpp::get_logger("robmovil_ekf"),"Prediccion: x=%.3f, y=%.3f, theta=%.3f, dt=%.3f",x(1), x(2), x(3), delta_t);
 }
 
 /** Modelo de sensado: z_t = h(x_t).

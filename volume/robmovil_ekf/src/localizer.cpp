@@ -7,10 +7,9 @@
 #include <cmath>
 
 robmovil_ekf::Localizer::Localizer() :
-  Node("localizer_node"), u(2), tf_buffer_(this->get_clock()), tf_listener_(tf_buffer_)
+  Node("localizer_node"), u(3), tf_buffer_(this->get_clock()), tf_listener_(tf_buffer_)
 {
-  u(1) = u(2) = 0;
-  set_map = true;
+  u(1) = u(2) = u(3) = 0.0;
   tf_broadcaster_ = std::make_shared<tf2_ros::TransformBroadcaster>(this);
 
   // Get node parameters
@@ -27,7 +26,6 @@ robmovil_ekf::Localizer::Localizer() :
   this->get_parameter("min_landmark_size", min_landmark_size);
   
   landmark_sub = this->create_subscription<robmovil_msgs::msg::LandmarkArray>( "/landmarks", rclcpp::QoS(10), std::bind(&Localizer::on_landmark_array, this, std::placeholders::_1));
-  imu_sub = this->create_subscription<sensor_msgs::msg::Imu>( "/imu", rclcpp::QoS(10), std::bind(&Localizer::on_imu, this, std::placeholders::_1));
   odo_sub = this->create_subscription<nav_msgs::msg::Odometry>( "/robot/odometry", rclcpp::QoS(10), std::bind(&Localizer::on_odometry, this, std::placeholders::_1));
   posts_sub_ = this->create_subscription<geometry_msgs::msg::PoseArray>("/posts", rclcpp::QoS(10), std::bind(&Localizer::on_posts, this, std::placeholders::_1)
 );
@@ -186,16 +184,12 @@ void robmovil_ekf::Localizer::on_landmark_array(const robmovil_msgs::msg::Landma
   prediction_timer->reset();
 }
 
-void robmovil_ekf::Localizer::on_imu(const sensor_msgs::msg::Imu::SharedPtr msg)
-{
-  u(2) = msg->angular_velocity.z;
-  RCLCPP_INFO(this->get_logger(), "Received angular velocity Z: %f", u(2));
-}
-
 void robmovil_ekf::Localizer::on_odometry(const nav_msgs::msg::Odometry::SharedPtr msg)
 {
   u(1) = msg->twist.twist.linear.x;
-  RCLCPP_INFO(this->get_logger(), "Received linear velocity X: %f", u(1));
+  u(2) = msg->twist.twist.linear.y;
+  u(3) = msg->twist.twist.angular.z;
+  RCLCPP_INFO(this->get_logger(), "Velocidades: vx=%.3f, vy=%.3f, w=%.3f",u(1), u(2), u(3));
 }
 
 void robmovil_ekf::Localizer::advance_time(const rclcpp::Time& now)
