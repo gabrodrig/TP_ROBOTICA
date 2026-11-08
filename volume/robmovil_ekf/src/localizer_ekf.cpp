@@ -106,6 +106,7 @@ void robmovil_ekf::LocalizerEKF::makeBaseA(void)
  *  La matriz se actualiza en cada ciclo de actualizacion de tiempo (prediccion) */
 void robmovil_ekf::LocalizerEKF::makeA(void)
 {
+  double theta = x(3);
   A(1,3) = (-u(1) * sin(theta) - u(2) * cos(theta)) * delta_t;
   A(2,3) = (u(1) * cos(theta) - u(2) * sin(theta)) * delta_t;
 

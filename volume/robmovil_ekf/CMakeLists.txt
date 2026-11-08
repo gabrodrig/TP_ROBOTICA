@@ -85,7 +85,7 @@ include_directories(
 
 ## Declare a C++ executable
 add_executable(localizer src/localizer_node.cpp src/localizer.cpp src/localizer_ekf.cpp)
-ament_target_dependencies(localizer rclcpp ament_cmake geometry_msgs robmovil_msgs nav_msgs tf2 tf2_ros tf2_geometry_msgs sensor_msgs angles imu_laser kfilter)
+ament_target_dependencies(localizer rclcpp ament_cmake geometry_msgs robmovil_msgs nav_msgs tf2 tf2_ros tf2_geometry_msgs angles imu_laser kfilter)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
