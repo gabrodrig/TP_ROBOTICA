@@ -44,7 +44,7 @@ int main(int argc, char** argv)
   if(trajectory_type == "sin")
   {
     double stepping = trajectory_generator_node->declare_parameter("stepping", 0.1);
-    double total_time = trajectory_generator_node->declare_parameter("total_time", 20.0); // 20: da masomenos, 50: lo sigue muy bien el pioneer
+    double total_time = trajectory_generator_node->declare_parameter("total_time", 20.0); 
     double amplitude = trajectory_generator_node->declare_parameter("amplitude", 1.0);
     double cycles = trajectory_generator_node->declare_parameter("cycles", 1.0);
         

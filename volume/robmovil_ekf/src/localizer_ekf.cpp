@@ -33,17 +33,36 @@ robmovil_ekf::LocalizerEKF::LocalizerEKF(void) : EKFilter(3, 2, 3, 2, 2)
   init(x0, P); /* NOTA: esta llamada utiliza las referencias de x0 y P */
 }
 
-void robmovil_ekf::LocalizerEKF::set_map(const std::vector<LocalizerEKF::Vector>& observations)
+void robmovil_ekf::LocalizerEKF::set_map_landmarks(const std::vector<tf2::Vector3>& landmarks)
 {
-  /* Nota: Se asume x = 0, el origen de coordenadas del mapa comienza donde el robot esta ahora,
-   * los landmarks se guardar en relacion al mapa */
   for (int i = 0; i < observations.size(); i++)
   {
-    tf2::Vector3 landmark = measure2landmark(observations[i]);
-    map_landmarks.push_back(landmark);
-    
-    RCLCPP_INFO(rclcpp::get_logger("robmovil_ekf"), "Landmark: %f, %f, %f", landmark.getX(), landmark.getY(), landmark.getZ());
+    map_landmarks = landmarks;
+
+    RCLCPP_INFO(rclcpp::get_logger("robmovil_ekf"), "Mapa recibido con %zu postes", map_landmarks.size()
+    );
   }
+}
+
+void robmovil_ekf::LocalizerEKF::set_initial_pose(double initial_x, double initial_y, double initial_theta)
+{
+  Vector x0(3);
+
+  x0(1) = initial_x;
+  x0(2) = initial_y;
+  x0(3) = angles::normalize_angle(initial_theta);
+
+  Matrix P0 = calculateP();
+
+  init(x0, P0);
+
+  RCLCPP_INFO(
+    rclcpp::get_logger("robmovil_ekf"),
+    "EKF inicializado: x=%.3f, y=%.3f, theta=%.3f",
+    initial_x,
+    initial_y,
+    initial_theta
+  );
 }
 
 void robmovil_ekf::LocalizerEKF::set_delta_t(double delta)

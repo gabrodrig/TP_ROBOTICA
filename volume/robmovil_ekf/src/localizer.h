@@ -8,6 +8,10 @@
 #include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
 #include <tf2_ros/transform_broadcaster.h>
 #include <tf2/LinearMath/Transform.h>
+#include <geometry_msgs/msg/pose_array.hpp>
+#include <tf2_ros/buffer.h>
+#include <tf2_ros/transform_listener.h>
+#include <vector>
 
 #include "localizer_ekf.h"
 
@@ -23,13 +27,15 @@ namespace robmovil_ekf {
 
     private:
       LocalizerEKF ekf;
-      bool set_map;
+      bool map_received_ = false;
+      bool pose_initialized_ = false;
       bool only_prediction;
       int min_landmark_size;
       
       rclcpp::Subscription<robmovil_msgs::msg::LandmarkArray>::SharedPtr landmark_sub;
       rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr imu_sub;
       rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odo_sub;
+      rclcpp::Subscription<geometry_msgs::msg::PoseArray>::SharedPtr posts_sub_;
       rclcpp::Publisher<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr pose_pub;
       std::string base_frame_, map_frame_, laser_frame_;
       
@@ -41,10 +47,18 @@ namespace robmovil_ekf {
       void publish_estimate(const rclcpp::Time& now);
       
       void prediction(const rclcpp::Time& time);
+
+      void on_posts(
+        const geometry_msgs::msg::PoseArray::SharedPtr msg
+      );
+
+      bool try_initialize_pose();
       
       /* ultimo comando de control recibido */
       LocalizerEKF::Vector u;
       rclcpp::Time t;
+      tf2_ros::Buffer tf_buffer_;
+      tf2_ros::TransformListener tf_listener_;
   };
 }
 

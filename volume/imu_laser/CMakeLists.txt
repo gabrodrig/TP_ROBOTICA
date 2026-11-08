@@ -86,13 +86,11 @@ include_directories(
 # add_dependencies(robmovil_ekf ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(imu_calibrator src/imu_calibrator_node.cpp src/imu_calibrator.cpp)
 add_executable(landmark_detector src/landmark_detector_node.cpp src/landmark_detector.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 #add_dependencies(landmark_detector ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-ament_target_dependencies(imu_calibrator rclcpp ament_cmake geometry_msgs robmovil_msgs tf2 tf2_ros tf2_geometry_msgs sensor_msgs angles)
 ament_target_dependencies(landmark_detector rclcpp ament_cmake geometry_msgs robmovil_msgs tf2 tf2_ros tf2_geometry_msgs sensor_msgs angles)
 
 ## Specify libraries to link a library or executable target against
@@ -101,7 +99,6 @@ ament_target_dependencies(landmark_detector rclcpp ament_cmake geometry_msgs rob
 
 
 install(TARGETS
-  imu_calibrator
   landmark_detector
   DESTINATION lib/${PROJECT_NAME}
 )

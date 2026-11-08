@@ -1,9 +1,13 @@
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 #include <tf2/utils.h>
 #include "localizer.h"
+#include <tf2_ros/buffer.h>
+#include <tf2_ros/transform_listener.h>
+#include <tf2/exceptions.h>
+#include <cmath>
 
 robmovil_ekf::Localizer::Localizer() :
-  Node("localizer_node"), u(2)
+  Node("localizer_node"), u(2), tf_buffer_(this->get_clock()), tf_listener_(tf_buffer_)
 {
   u(1) = u(2) = 0;
   set_map = true;
@@ -11,7 +15,7 @@ robmovil_ekf::Localizer::Localizer() :
 
   // Get node parameters
   this->declare_parameter("base_link_frame", std::string("base_link_ekf"));
-  this->declare_parameter("ekf_frame", std::string("odom"));
+  this->declare_parameter("ekf_frame", std::string("map"));
   this->declare_parameter("laser_frame", std::string("laser"));
   this->declare_parameter("only_prediction", false);
   this->declare_parameter("min_landmark_size", 2);
@@ -25,12 +29,78 @@ robmovil_ekf::Localizer::Localizer() :
   landmark_sub = this->create_subscription<robmovil_msgs::msg::LandmarkArray>( "/landmarks", rclcpp::QoS(10), std::bind(&Localizer::on_landmark_array, this, std::placeholders::_1));
   imu_sub = this->create_subscription<sensor_msgs::msg::Imu>( "/imu", rclcpp::QoS(10), std::bind(&Localizer::on_imu, this, std::placeholders::_1));
   odo_sub = this->create_subscription<nav_msgs::msg::Odometry>( "/robot/odometry", rclcpp::QoS(10), std::bind(&Localizer::on_odometry, this, std::placeholders::_1));
-
+  posts_sub_ = this->create_subscription<geometry_msgs::msg::PoseArray>("/posts", rclcpp::QoS(10), std::bind(&Localizer::on_posts, this, std::placeholders::_1)
+);
   pose_pub = this->create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>("/pose", rclcpp::QoS(10));
-  
-  while((this->now().nanoseconds() == 0));
-  t = this->now();
+
   prediction_timer = this->create_wall_timer(std::chrono::milliseconds(10), std::bind(&Localizer::prediction_event, this));
+}
+
+void robmovil_ekf::Localizer::on_posts(const geometry_msgs::msg::PoseArray::SharedPtr msg)
+{
+  if (map_received_) return;
+
+  // Verificamos que los postes estén en el marco del mapa
+  if (msg->header.frame_id != map_frame_)
+  {
+    RCLCPP_ERROR(this->get_logger(), "El mapa llegó en frame '%s', pero se esperaba '%s'", msg->header.frame_id.c_str(), map_frame_.c_str());
+    return;
+  }
+
+  std::vector<tf2::Vector3> landmarks;
+  landmarks.reserve(msg->poses.size());
+
+  for (const auto& pose : msg->poses)
+  {
+    const auto& p = pose.position;
+
+    if (!std::isfinite(p.x) || !std::isfinite(p.y))
+    {
+      RCLCPP_WARN(this->get_logger(),"Poste con coordenadas inválidas");
+      return;
+    }
+
+    landmarks.emplace_back(p.x, p.y, 0.0);
+  }
+
+  ekf.set_map_landmarks(landmarks);
+
+  map_received_ = true;
+
+  try_initialize_pose();
+}
+
+bool robmovil_ekf::Localizer::try_initialize_pose()
+{
+  if (pose_initialized_ || !map_received_) return pose_initialized_;
+
+  if (this->now().nanoseconds() == 0) return false;
+
+  try
+  {
+    // Pose de base_link expresada en coordenadas map
+    auto transform = tf_buffer_.lookupTransform(map_frame_,"base_link",tf2::TimePointZero);
+
+    double initial_x = transform.transform.translation.x;
+    double initial_y = transform.transform.translation.y;
+
+    double initial_theta = tf2::getYaw(transform.transform.rotation);
+
+    ekf.set_initial_pose(initial_x,initial_y,initial_theta);
+
+    t = this->now();
+    pose_initialized_ = true;
+
+    RCLCPP_INFO(this->get_logger(),"Pose inicial obtenida desde TF: ""x=%.3f, y=%.3f, theta=%.3f",initial_x,initial_y,initial_theta);
+
+    return true;
+  }
+  catch (const tf2::TransformException& ex)
+  {
+    RCLCPP_WARN_THROTTLE(this->get_logger(),*this->get_clock(),2000,"Esperando transformacion map -> base_link: %s",ex.what());
+
+    return false;
+  }
 }
 
 /**
@@ -39,6 +109,11 @@ robmovil_ekf::Localizer::Localizer() :
 
 void robmovil_ekf::Localizer::prediction_event()//const rclcpp::TimerEvent& event)
 {
+  if (!pose_initialized_)
+  {
+    try_initialize_pose();
+    return;
+  }
   RCLCPP_INFO(this->get_logger(), "Prediction Event");
   
   prediction(this->now());
@@ -67,35 +142,14 @@ void robmovil_ekf::Localizer::prediction(const rclcpp::Time& now)
 
 void robmovil_ekf::Localizer::on_landmark_array(const robmovil_msgs::msg::LandmarkArray::SharedPtr msg)
 {
+  if (!map_received_ || !pose_initialized_)
+    return;
+  
   RCLCPP_INFO(this->get_logger(), "Only prediction: %d", only_prediction); // Prints 0 or 1
   if(only_prediction || msg->landmarks.size() < min_landmark_size )
     return;
   
   RCLCPP_INFO(this->get_logger(), "on_landmark_array: %3.f", t.seconds());
-
-  /* Ante el primer update, tomo las poses de los postes y me las guardo como un mapa
-   * Se asume que la pose actual del robot es tomada como origen de la localizacion */
-  if (set_map)
-  {
-    RCLCPP_INFO(this->get_logger(), "Creating map");
-    
-    std::vector<LocalizerEKF::Vector> map;
-    for (int i = 0; i < msg->landmarks.size(); i++)
-    {
-      LocalizerEKF::Vector z(2);
-      
-      z(1) = msg->landmarks[i].range;
-      z(2) = msg->landmarks[i].bearing;
-      map.push_back(z);
-      
-      RCLCPP_INFO_STREAM(this->get_logger(), "Measurement: " << z);
-    }
-
-    ekf.set_map(map);
-    set_map = false;
-    
-    return;
-  }
   
   /* Se apaga el timer que predice periodicamente dado que
    * se predice y actualiza dadas las mediciones recibidas */

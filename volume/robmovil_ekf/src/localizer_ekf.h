@@ -56,7 +56,8 @@ namespace robmovil_ekf
       /* modelo de sensado */
       void makeMeasure(void);
       
-      void set_map(const std::vector<Vector>& observations);
+      void set_map_landmarks(const std::vector<tf2::Vector3>& landmarks);
+      void set_initial_pose(double x, double y, double theta);
       void set_delta_t(double delta); // seconds
       bool set_measure(const Vector& measured_z);
 

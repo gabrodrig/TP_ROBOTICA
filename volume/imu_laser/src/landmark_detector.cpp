@@ -15,7 +15,7 @@
 robmovil_ekf::LandmarkDetector::LandmarkDetector() :
     Node("landmark_detector_node"), tf_buffer(this->get_clock()), tf_listener(tf_buffer), transform_received(false)
 {
-  laser_sub = this->create_subscription<sensor_msgs::msg::LaserScan>( "/scan", rclcpp::QoS(10), std::bind(&LandmarkDetector::on_laser_scan, this, std::placeholders::_1));
+  laser_sub = this->create_subscription<sensor_msgs::msg::LaserScan>("/robot/front_laser/scan", rclcpp::QoS(10), std::bind(&LandmarkDetector::on_laser_scan, this, std::placeholders::_1));
   landmark_pub = this->create_publisher<robmovil_msgs::msg::LandmarkArray>("/landmarks", rclcpp::QoS(10));
   pointcloud_pub = this->create_publisher<sensor_msgs::msg::PointCloud>("/landmarks_pointcloud", rclcpp::QoS(10));
 
@@ -43,14 +43,14 @@ void robmovil_ekf::LandmarkDetector::on_laser_scan(const sensor_msgs::msg::Laser
     return;
   }
 
-  /* COMPLETAR: Convertir range,bearing a puntos cartesianos x,y,0. (ojo: descarta puntos en el "infinito")
+  /* Convertimos range,bearing a puntos cartesianos x,y,0. 
    * Descartando aquellas mediciones por fuera de los rangos validos */
   std::vector<tf2::Vector3> cartesian;
   
   
   for (int i = 0; i < msg->ranges.size(); i++)
   {
-    /* Utilizar la informacion del mensaje para filtrar y convertir */
+    /* Utilizamos la informacion del mensaje para filtrar y convertir */
     float range = msg->ranges[i];
     if(!isfinite(range)) continue;
     float range_min = msg->range_min;
@@ -58,9 +58,6 @@ void robmovil_ekf::LandmarkDetector::on_laser_scan(const sensor_msgs::msg::Laser
     if(range < range_min || range > range_max) continue;
     float angle_min = msg->angle_min;
     float angle_increment = msg->angle_increment;
-
-    /* COMPLETAR: p debe definirse con informacion valida y 
-     * en coordenadas cartesianas */
     float angle = angle_min + i*angle_increment;
 
     tf2::Vector3 p(cos(angle)*range,sin(angle)*range,0);
@@ -75,7 +72,7 @@ void robmovil_ekf::LandmarkDetector::on_laser_scan(const sensor_msgs::msg::Laser
   landmark_array.header.stamp = msg->header.stamp;
   landmark_array.header.frame_id = publish_robot_frame;
   
-  /* VECTORES AUXILIARES: Pueden utilizar landmark_points para ir acumulando
+  /* usamos landmark_points para ir acumulando
    * mediciones cercanas */
   std::vector<tf2::Vector3> landmark_points;
   
@@ -85,7 +82,7 @@ void robmovil_ekf::LandmarkDetector::on_laser_scan(const sensor_msgs::msg::Laser
   for (int i = 0; i < cartesian.size(); i++)
   {
     
-    /* COMPLETAR: Acumular, de manera secuencial, mediciones cercanas (distancia euclidea) */
+    /* acumulamos, de manera secuencial, mediciones cercanas (distancia euclidea) */
     landmark_points.push_back(cartesian[i]); 
     int last = i;
     
@@ -102,8 +99,6 @@ void robmovil_ekf::LandmarkDetector::on_laser_scan(const sensor_msgs::msg::Laser
       }
     }
     
-    // -------
-    
     /* Al terminarse las mediciones provenientes al landmark que se venia detectando,
      * se calcula la pose del landmark como el centroide de las mediciones */
 
@@ -111,7 +106,7 @@ void robmovil_ekf::LandmarkDetector::on_laser_scan(const sensor_msgs::msg::Laser
     
     tf2::Vector3 centroid(0,0,0);
 
-    /* COMPLETAR: calcular el centroide de los puntos acumulados */
+    /* calculamos el centroide de los puntos acumulados */
     tf2::Vector3 lmin = landmark_points[0];
     double min_dist = sqrt(lmin.getX()*lmin.getX() + lmin.getY()*lmin.getY());
     for (const auto& q : landmark_points) {
@@ -127,7 +122,7 @@ void robmovil_ekf::LandmarkDetector::on_laser_scan(const sensor_msgs::msg::Laser
     RCLCPP_INFO(this->get_logger(), "landmark detectado (cartesianas): %f %f %f", centroid.getX(), centroid.getY(), centroid.getZ());
     centroids.push_back(centroid);
 
-    /* Convertir el centroide a coordenadas polares, construyendo el mensaje requerido */
+    /* Convertimos el centroide a coordenadas polares, construyendo el mensaje requerido */
     robmovil_msgs::msg::Landmark landmark;
     
     float r = sqrt(centroid.getX()*centroid.getX() + centroid.getY()*centroid.getY()); // distancia desde el robot al centroide
@@ -135,8 +130,6 @@ void robmovil_ekf::LandmarkDetector::on_laser_scan(const sensor_msgs::msg::Laser
     
     float a = atan2(centroid.getY(), centroid.getX()); // angulo de la recta que conecta al robot con el centroide
     landmark.bearing = a;
-
-    /* Fin Completar */
 
     /* se agrega el landmark en coordenadas polares */
     landmark_array.landmarks.push_back(landmark);
