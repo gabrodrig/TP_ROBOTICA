@@ -100,8 +100,8 @@ void build_square_trajectory(double stepping, double side, double speed, robmovi
   double initial_rotation_time = 1.0;
   double side_time = side / speed;
   double total_time = initial_rotation_time + 4.0 * side_time;
-  double center_x = side / 2.0;
-  double center_y = side / 2.0;
+  double center_x = -side / 2.0;
+  double center_y = -side / 2.0;
 
   // esta es la orientacion que queremos que tenga el robot al iniciar 
   double initial_a = std::atan2(0.0 - center_y, 0.0 - center_x);
@@ -158,7 +158,14 @@ void build_square_trajectory(double stepping, double side, double speed, robmovi
         vy_global = -speed;
       }
 
-      // orientación opuesta al centro
+      // Rotamos la trayectoria -180 grados
+      x = -x;
+      y = -y;
+
+      vx_global = -vx_global;
+      vy_global = -vy_global;
+
+      // Orientación opuesta al nuevo centro
       a = std::atan2(y - center_y, x - center_x);
 
       a = previous_a + std::atan2(std::sin(a - previous_a), std::cos(a - previous_a));
