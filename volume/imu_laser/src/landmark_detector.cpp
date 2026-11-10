@@ -22,7 +22,7 @@ robmovil_ekf::LandmarkDetector::LandmarkDetector() :
   
   this->declare_parameter("robot_frame", std::string("base_link"));
   this->declare_parameter("publish_robot_frame", std::string("base_link"));
-  this->declare_parameter("laser_frame", std::string("laser"));
+  this->declare_parameter("laser_frame", std::string("front_laser"));
 
   this->get_parameter("robot_frame", robot_frame);
   this->get_parameter("publish_robot_frame", publish_robot_frame);

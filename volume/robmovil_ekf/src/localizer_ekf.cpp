@@ -135,15 +135,15 @@ void robmovil_ekf::LocalizerEKF::makeBaseW(void)
 /** covarianza de W (ruido en f) */
 void robmovil_ekf::LocalizerEKF::makeBaseQ()
 {
-  Q(1,1) = 0.001; // Var(w1) = 0.1^2 (1 milimetro de desvio estandar)
+  Q(1,1) = 0.0001; // Var(w1) = 0.01^2 (1 centimetro de desvio estandar)
   Q(1,2) = 0;
   Q(1,3) = 0;
   Q(2,1) = 0;
-  Q(2,2) = 0.001; // Var(w2) = 0.1^2
+  Q(2,2) = 0.0001; // Var(w2) = 0.01^2
   Q(2,3) = 0;
   Q(3,1) = 0;
   Q(3,2) = 0;
-  Q(3,3) = pow(0.02,2); // Var(w3) = 0.1^2
+  Q(3,3) = 0.00004; // Var(w3) = 0.0063^2
 }
 
 /** Jacobiano de H respecto del modelo de sensado (h) (valores iniciales) **/
@@ -208,7 +208,7 @@ void robmovil_ekf::LocalizerEKF::makeBaseV(void)
 /** Covarianza de v **/
 void robmovil_ekf::LocalizerEKF::makeBaseR()
 {
-  R(1,1) = 0.001; // Var(rho) = (0.1)^2 (desvio de 10cm)
+  R(1,1) = 0.001; // Var(rho) = (0.0316)^2 (desvio de 3cm)
   R(1,2) = 0;
   R(2,1) = 0;
   R(2,2) = 0.00007615435; // Var(phi) = (0.5 * pi / 180)^2 (desvio de 0.5 grados)

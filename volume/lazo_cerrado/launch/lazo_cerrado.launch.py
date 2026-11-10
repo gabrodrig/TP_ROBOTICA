@@ -14,6 +14,26 @@ def generate_launch_description():
         ),
 
         Node(
+            package='imu_laser',
+            executable='landmark_detector',
+            name='landmark_detector',
+            output='screen',
+            parameters=[{'publish_robot_frame': 'base_link_ekf'},
+                        {'laser_frame': 'front_laser'},
+                        {"use_sim_time": True}],
+        ),
+
+        Node(
+            package='robmovil_ekf',
+            executable='localizer',
+            name='localizer',
+            output='screen',
+            parameters=[{'only_prediction': False},
+                        {'min_landmark_size': 2},
+                        {"use_sim_time": True}],
+        ),
+
+        Node(
             package="lazo_cerrado",
             executable="trajectory_follower_cl",
             name="trajectory_follower_cl",

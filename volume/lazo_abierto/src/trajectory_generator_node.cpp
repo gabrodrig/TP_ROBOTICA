@@ -26,7 +26,7 @@ int main(int argc, char** argv)
   auto trajectory_publisher = trajectory_generator_node->create_publisher<robmovil_msgs::msg::Trajectory>("/robot/trajectory", qos_profile);
 
   // Path descripto en poses para visualizacion en RViz
-  auto path_publisher = trajectory_generator_node->create_publisher<nav_msgs::msg::Path>("/ground_truth/target_path", rclcpp::QoS(10));
+  auto path_publisher = trajectory_generator_node->create_publisher<nav_msgs::msg::Path>("/ground_truth/target_path", qos_profile); // transient_local: RViz lo recibe aunque se suscriba despues
 
   robmovil_msgs::msg::Trajectory trajectory_msg;
   nav_msgs::msg::Path path_msg;

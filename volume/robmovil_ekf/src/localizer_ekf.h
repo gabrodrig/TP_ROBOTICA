@@ -20,8 +20,8 @@ namespace robmovil_ekf
    * Localizador EKF
    *
    * Estado: X = (x,y,theta)
-   * Input: U = (v,w)
-   * Medicion: Z = (r,rho)
+   * Input: U = (vx,vy,w)  (velocidades del robot en su propio marco, de /robot/odometry)
+   * Medicion: Z = (rho,phi) (distancia y angulo a un poste, relativos al robot)
    * Se incluyen dos ruidos aditivos para modelo de proceso y sensado, respectivamente
    */
   class LocalizerEKF : public EKFilter

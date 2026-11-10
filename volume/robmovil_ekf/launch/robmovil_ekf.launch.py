@@ -21,6 +21,7 @@ def generate_launch_description():
             name='landmark_detector',
             output='screen',
             parameters=[{'publish_robot_frame': 'base_link_ekf'},
+                        {'laser_frame': 'front_laser'},
                         {"use_sim_time": True}], 
             condition=IfCondition(detector)
         ),
@@ -31,6 +32,7 @@ def generate_launch_description():
             name='landmark_detector_gt',
             output='screen',
             parameters=[{'publish_robot_frame': 'base_link_gt'},
+                        {'laser_frame': 'front_laser'},
                         {"use_sim_time": True}], 
             remappings=[
                 ('/landmarks_pointcloud', '/landmarks_pointcloud/groundtruth'),
@@ -44,14 +46,6 @@ def generate_launch_description():
             executable='omni_odometry_node',
             name='omni_odometry',
             output='screen',
-            parameters=[{"use_sim_time": True}]
-        ),
-
-        Node(
-            package='tf2_ros',
-            executable='static_transform_publisher',
-            name='base_link_laser',
-            arguments=['0', '0', '0', '0', '0', '0', 'base_link', 'laser'],
             parameters=[{"use_sim_time": True}]
         ),
 

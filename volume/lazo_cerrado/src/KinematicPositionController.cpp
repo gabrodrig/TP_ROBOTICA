@@ -1,5 +1,6 @@
 #include <angles/angles.h>
 #include "KinematicPositionController.h"
+#include <tf2/exceptions.h>
 
 KinematicPositionController::KinematicPositionController() :
   TrajectoryFollower(), tfBuffer_(this->get_clock()),transform_listener_( tfBuffer_ )
@@ -53,7 +54,26 @@ void KinematicPositionController::getCurrentPoseFromOdometry(const nav_msgs::msg
 
 bool KinematicPositionController::control(const rclcpp::Time& t, double& vx, double& vy, double& w)
 {
-  // Se obtiene la pose actual publicada por la odometria
+
+  // Se obtiene la pose actual del robot desde TF (feedback del lazo cerrado)
+  try
+  {
+    // EKF (punto 3.5): "base_link_ekf". Para usar la odometría como feedback (punto 2): "base_link"
+    auto transform = tfBuffer_.lookupTransform("odom", "base_link_ekf", tf2::TimePointZero);
+
+    this->x = transform.transform.translation.x;
+    this->y = transform.transform.translation.y;
+    this->a = tf2::getYaw(transform.transform.rotation);
+  }
+  catch (const tf2::TransformException& ex)
+  {
+    RCLCPP_WARN_THROTTLE(this->get_logger(), *this->get_clock(), 2000,
+                         "Esperando la pose del robot por TF: %s", ex.what());
+    vx = 0; vy = 0; w = 0;
+    return true;
+  }
+
+
   double current_x, current_y, current_a;
   current_x = this->x; current_y = this->y; current_a = this->a;
 
