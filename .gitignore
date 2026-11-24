@@ -1,0 +1,7 @@
+volume/experimentos/ekf/runs/
+volume/experimentos/ekf/plots/*
+!volume/experimentos/ekf/plots/circulo_base_trayectoria.png
+!volume/experimentos/ekf/plots/circulo_soloPred_trayectoria.png
+!volume/experimentos/ekf/plots/orbitarapida_base_trayectoria.png
+!volume/experimentos/ekf/plots/orbitarapida_q10_error.png
+!volume/experimentos/ekf/plots/rotrapida_base_error.png
