@@ -116,6 +116,9 @@ bool KinematicPositionController::getPursuitBasedGoal(const rclcpp::Time& t, dou
     
   // Se obtiene la trayectoria requerida.
   const robmovil_msgs::msg::Trajectory& trajectory = getTrajectory();
+  if (trajectory.points.empty()) {
+    return false;
+  }
   
   /** EJERCICIO 3:
    * Se recomienda encontrar el waypoint de la trayectoria más cercano al robot en términos de x,y
@@ -144,7 +147,8 @@ bool KinematicPositionController::getPursuitBasedGoal(const rclcpp::Time& t, dou
     }
   }
 
-  unsigned int goal = mas_cercano;
+  // Si no queda un punto a distancia de lookahead, apuntar al último waypoint.
+  unsigned int goal = trajectory.points.size() - 1;
 
   for (unsigned int i = mas_cercano; i < trajectory.points.size(); ++i) {
     const robmovil_msgs::msg::TrajectoryPoint& wpoint = trajectory.points[i];
